@@ -809,7 +809,7 @@ if not is_logged_in():
     st.markdown(
         """
         <h1 style='font-size:2.8em; font-weight:bold; line-height:1.2; margin-bottom:0.2em; text-align:center;'>
-            📊 안축장·굴절이상 추이 및 20세 예측
+            📊 眼軸長・屈折異常推移及び20歳予測
         </h1>
         """,
         unsafe_allow_html=True
@@ -952,6 +952,7 @@ if not is_logged_in():
     elif st.session_state.get('show_register'):
         st.markdown("---")
         st.markdown("### 📝 会員登録")
+        st.info("회원가입 폼이 표시되었습니다.")
         
         with st.form("register_form"):
             col1, col2 = st.columns(2)
@@ -982,6 +983,7 @@ if not is_logged_in():
             submitted = st.form_submit_button("会員登録", use_container_width=True)
         
         if submitted:
+            st.info("회원가입 처리 중...")
             from auth import save_user, load_user, find_user_by_email
             # 유효성 검사
             errors = []
@@ -1047,7 +1049,11 @@ if not is_logged_in():
                 }
                 
                 # 사용자 저장
-                if save_user(user_data):
+                st.info(f"사용자 데이터 저장 시도: {user_data['username']}")
+                save_result = save_user(user_data)
+                st.info(f"저장 결과: {save_result}")
+                
+                if save_result:
                     st.success("会員登録が完了しました！ログインしてください。")
                     st.session_state.show_register = False
                     st.session_state.show_login = True
