@@ -19,6 +19,9 @@ from PIL import Image
 
 # 사용자 인증 모듈 import
 try:
+    import sys
+    import os
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from auth import is_logged_in, get_current_user, require_login, get_user_specific_data_path, save_user_data, load_user_data, create_demo_user
 except ImportError:
     # auth 모듈이 없는 경우 기본 함수들 정의
@@ -790,27 +793,27 @@ if not is_logged_in():
     )
     
     st.markdown("---")
-    st.markdown("### 🔐 로그인이 필요합니다")
-    st.info("개인 맞춤형 성장 차트를 이용하려면 로그인해주세요.")
+    st.markdown("### 🔐 ログインが必要です")
+    st.info("個人カスタマイズ成長チャートをご利用いただくには、ログインしてください。")
     
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
-        if st.button("🔑 로그인", use_container_width=True):
+        if st.button("🔑 ログイン", use_container_width=True):
             st.session_state.show_login = True
             st.rerun()
     with col2:
-        if st.button("📝 회원가입", use_container_width=True):
+        if st.button("📝 会員登録", use_container_width=True):
             st.session_state.show_register = True
             st.rerun()
     with col3:
-        if st.button("🔍 데모 체험", use_container_width=True):
+        if st.button("🔍 デモ体験", use_container_width=True):
             create_demo_user()
             st.rerun()
     
     # 로그인/회원가입 폼 표시
     if st.session_state.get('show_login'):
         st.markdown("---")
-        st.markdown("### 🔑 로그인")
+        st.markdown("### 🔑 ログイン")
         
         # 로그인 정보 저장/불러오기 JavaScript
         st.components.v1.html("""
@@ -824,7 +827,7 @@ if not is_logged_in():
             if (savedUsername && rememberLogin) {
                 // 입력 필드에 저장된 값 설정
                 setTimeout(function() {
-                    const usernameInput = document.querySelector('input[data-testid="textInput"][aria-label*="사용자명"]');
+                    const usernameInput = document.querySelector('input[data-testid="textInput"][aria-label*="ユーザー名"]');
                     const passwordInput = document.querySelector('input[data-testid="textInput"][type="password"]');
                     const checkboxInput = document.querySelector('input[data-testid="stCheckbox"]');
                     
@@ -838,26 +841,26 @@ if not is_logged_in():
         """, height=0)
         
         with st.form("login_form"):
-            username = st.text_input("사용자명 또는 이메일", 
-                                   placeholder="사용자명 또는 이메일을 입력하세요",
+            username = st.text_input("ユーザー名またはメールアドレス", 
+                                   placeholder="ユーザー名またはメールアドレスを入力してください",
                                    key="login_username")
-            password = st.text_input("비밀번호", 
+            password = st.text_input("パスワード", 
                                    type="password", 
-                                   placeholder="비밀번호를 입력하세요",
+                                   placeholder="パスワードを入力してください",
                                    key="login_password")
             
             # 로그인 정보 저장 옵션
-            remember_login = st.checkbox("로그인 정보 저장", 
-                                       help="브라우저에 로그인 정보를 저장합니다 (보안상 권장하지 않음)",
+            remember_login = st.checkbox("ログイン情報を保存", 
+                                       help="ブラウザにログイン情報を保存します（セキュリティ上推奨しません）",
                                        key="remember_login")
             
             col1, col2, col3 = st.columns([2, 2, 1])
             with col1:
-                login_submitted = st.form_submit_button("로그인", use_container_width=True)
+                login_submitted = st.form_submit_button("ログイン", use_container_width=True)
             with col2:
-                demo_submitted = st.form_submit_button("데모 로그인", use_container_width=True)
+                demo_submitted = st.form_submit_button("デモログイン", use_container_width=True)
             with col3:
-                clear_saved = st.form_submit_button("🗑️", help="저장된 로그인 정보 삭제", use_container_width=True)
+                clear_saved = st.form_submit_button("🗑️", help="保存されたログイン情報を削除", use_container_width=True)
         
         if login_submitted:
             if username and password:
@@ -883,7 +886,7 @@ if not is_logged_in():
                         localStorage.setItem('remember_login', 'true');
                         </script>
                         """, height=0)
-                        st.success("로그인 성공! 로그인 정보가 저장되었습니다.")
+                        st.success("ログイン成功！ログイン情報が保存されました。")
                     else:
                         # JavaScript로 브라우저에서 삭제
                         st.components.v1.html("""
@@ -893,17 +896,17 @@ if not is_logged_in():
                         localStorage.removeItem('remember_login');
                         </script>
                         """, height=0)
-                        st.success("로그인 성공!")
+                        st.success("ログイン成功！")
                     
                     st.rerun()
                 else:
-                    st.error("사용자명/이메일 또는 비밀번호가 올바르지 않습니다.")
+                    st.error("ユーザー名/メールアドレスまたはパスワードが正しくありません。")
             else:
-                st.error("모든 필드를 입력해주세요.")
+                st.error("すべてのフィールドを入力してください。")
         
         if demo_submitted:
             create_demo_user()
-            st.success("데모 계정으로 로그인했습니다!")
+            st.success("デモアカウントでログインしました！")
             st.rerun()
         
         if clear_saved:
@@ -916,44 +919,44 @@ if not is_logged_in():
             </script>
             """, height=0)
             
-            st.success("저장된 로그인 정보가 삭제되었습니다.")
+            st.success("保存されたログイン情報が削除されました。")
             st.rerun()
         
-        if st.button("← 돌아가기"):
+        if st.button("← 戻る"):
             st.session_state.show_login = False
             st.rerun()
     
     elif st.session_state.get('show_register'):
         st.markdown("---")
-        st.markdown("### 📝 회원가입")
+        st.markdown("### 📝 会員登録")
         
         with st.form("register_form"):
             col1, col2 = st.columns(2)
             
             with col1:
-                st.markdown("#### 👤 개인 정보")
-                username = st.text_input("사용자명 *", placeholder="사용자명을 입력하세요")
-                email = st.text_input("이메일 *", placeholder="이메일을 입력하세요")
-                password = st.text_input("비밀번호 *", type="password", placeholder="비밀번호를 입력하세요 (최소 6자)")
-                confirm_password = st.text_input("비밀번호 확인 *", type="password", placeholder="비밀번호를 다시 입력하세요")
-                full_name = st.text_input("실명 *", placeholder="실명을 입력하세요")
-                birth_date = st.date_input("생년월일 *", value=date(2010, 1, 1), max_value=date.today())
-                gender = st.selectbox("성별 *", ["", "남", "여"])
+                st.markdown("#### 👤 個人情報")
+                username = st.text_input("ユーザー名 *", placeholder="ユーザー名を入力してください")
+                email = st.text_input("メールアドレス *", placeholder="メールアドレスを入力してください")
+                password = st.text_input("パスワード *", type="password", placeholder="パスワードを入力してください（最低6文字）")
+                confirm_password = st.text_input("パスワード確認 *", type="password", placeholder="パスワードを再入力してください")
+                full_name = st.text_input("実名 *", placeholder="実名を入力してください")
+                birth_date = st.date_input("生年月日 *", value=date(2010, 1, 1), max_value=date.today())
+                gender = st.selectbox("性別 *", ["", "男性", "女性"])
             
             with col2:
-                st.markdown("#### 🏥 기관 정보")
-                institution_name = st.text_input("기관명 *", placeholder="병원명 또는 기관명을 입력하세요")
-                institution_address = st.text_area("직장주소 *", placeholder="기관의 주소를 입력하세요", height=100)
-                license_number = st.text_input("면허번호 *", placeholder="의사면허번호를 입력하세요")
+                st.markdown("#### 🏥 機関情報")
+                institution_name = st.text_input("機関名 *", placeholder="病院名または機関名を入力してください")
+                institution_address = st.text_area("勤務先住所 *", placeholder="機関の住所を入力してください", height=100)
+                license_number = st.text_input("免許番号 *", placeholder="医師免許番号を入力してください")
                 
-                st.markdown("#### 🔒 데이터 공유 설정")
+                st.markdown("#### 🔒 データ共有設定")
                 data_sharing = st.radio(
-                    "기관 내 데이터 공유",
-                    ["개인 데이터만 사용", "기관 내 공유 데이터 사용"],
-                    help="기관 내 공유 데이터를 선택하면 동일 기관 사용자들과 환자 데이터를 공유할 수 있습니다."
+                    "機関内データ共有",
+                    ["個人データのみ使用", "機関内共有データ使用"],
+                    help="機関内共有データを選択すると、同一機関のユーザーと患者データを共有できます。"
                 )
             
-            submitted = st.form_submit_button("회원가입", use_container_width=True)
+            submitted = st.form_submit_button("会員登録", use_container_width=True)
         
         if submitted:
             from auth import save_user, load_user, find_user_by_email
@@ -961,46 +964,46 @@ if not is_logged_in():
             errors = []
             
             if not username:
-                errors.append("사용자명을 입력해주세요.")
+                errors.append("ユーザー名を入力してください。")
             elif len(username) < 3:
-                errors.append("사용자명은 최소 3자 이상이어야 합니다.")
+                errors.append("ユーザー名は最低3文字以上である必要があります。")
             elif load_user(username):
-                errors.append("이미 존재하는 사용자명입니다.")
+                errors.append("既に存在するユーザー名です。")
             
             if not email:
-                errors.append("이메일을 입력해주세요.")
+                errors.append("メールアドレスを入力してください。")
             elif "@" not in email:
-                errors.append("올바른 이메일 형식을 입력해주세요.")
+                errors.append("正しいメールアドレス形式を入力してください。")
             elif find_user_by_email(email):
-                errors.append("이미 등록된 이메일입니다.")
+                errors.append("既に登録されたメールアドレスです。")
             
             if not password:
-                errors.append("비밀번호를 입력해주세요.")
+                errors.append("パスワードを入力してください。")
             elif len(password) < 6:
-                errors.append("비밀번호는 최소 6자 이상이어야 합니다.")
+                errors.append("パスワードは最低6文字以上である必要があります。")
             
             if password != confirm_password:
-                errors.append("비밀번호가 일치하지 않습니다.")
+                errors.append("パスワードが一致しません。")
             
             if not full_name:
-                errors.append("실명을 입력해주세요.")
+                errors.append("実名を入力してください。")
             
             if not gender:
-                errors.append("성별을 선택해주세요.")
+                errors.append("性別を選択してください。")
             
             if birth_date >= date.today():
-                errors.append("생년월일은 오늘 이전이어야 합니다.")
+                errors.append("生年月日は今日より前である必要があります。")
             
             if not institution_name:
-                errors.append("기관명을 입력해주세요.")
+                errors.append("機関名を入力してください。")
             
             if not institution_address:
-                errors.append("직장주소를 입력해주세요.")
+                errors.append("勤務先住所を入力してください。")
             
             if not license_number:
-                errors.append("면허번호를 입력해주세요.")
+                errors.append("免許番号を入力してください。")
             elif len(license_number) < 6:
-                errors.append("면허번호는 최소 6자 이상이어야 합니다.")
+                errors.append("免許番号は最低6文字以上である必要があります。")
             
             if errors:
                 for error in errors:
@@ -1017,30 +1020,30 @@ if not is_logged_in():
                     'institutionName': institution_name,
                     'institutionAddress': institution_address,
                     'licenseNumber': license_number,
-                    'dataSharing': data_sharing == "기관 내 공유 데이터 사용"
+                    'dataSharing': data_sharing == "機関内共有データ使用"
                 }
                 
                 # 사용자 저장
                 if save_user(user_data):
-                    st.success("회원가입이 완료되었습니다! 로그인해주세요.")
+                    st.success("会員登録が完了しました！ログインしてください。")
                     st.session_state.show_register = False
                     st.session_state.show_login = True
                     st.rerun()
                 else:
-                    st.error("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.")
+                    st.error("会員登録中にエラーが発生しました。再度お試しください。")
         
-        if st.button("← 돌아가기"):
+        if st.button("← 戻る"):
             st.session_state.show_register = False
             st.rerun()
     
     else:
         st.markdown("---")
-        st.markdown("### 📋 서비스 안내")
+        st.markdown("### 📋 サービス案内")
         st.markdown("""
-        - **개인 데이터 보호**: 본인만의 데이터에 접근 가능
-        - **안전한 저장**: 모든 데이터는 암호화되어 저장
-        - **의료 목적**: 성장 추이 분석 및 예측 서비스
-        - **데모 체험**: 로그인 없이 샘플 데이터로 체험 가능
+        - **個人データ保護**: 本人のみのデータにアクセス可能
+        - **安全な保存**: すべてのデータは暗号化されて保存
+        - **医療目的**: 成長推移分析および予測サービス
+        - **デモ体験**: ログインなしでサンプルデータで体験可能
         """)
     
     st.stop()
@@ -1053,7 +1056,7 @@ st.markdown(
         眼軸長・屈折異常推移及び20歳予測
     </h1>
     <p style='font-size:1.2em; color:#666; margin-bottom:1em;'>
-        こんにちは、<strong>{user.get('fullName', user.get('username', 'ユーザー'))}</strong>さん！ 👋
+        こんにちは、<strong>{user.get('fullName', user.get('username', 'ユーザー')) if user else 'ユーザー'}</strong>さん！ 👋
     </p>
     """,
     unsafe_allow_html=True
@@ -1133,17 +1136,17 @@ with st.sidebar:
     # ユーザー情報及びログアウト
     st.markdown("### 👤 ユーザー情報")
     user = get_current_user()
-    st.info(f"**{user.get('fullName', user.get('username', 'ユーザー'))}**さん")
-    st.caption(f"ID: {user.get('username', 'demo')}")
+    st.info(f"**{user.get('fullName', user.get('username', 'ユーザー')) if user else 'ユーザー'}**さん")
+    st.caption(f"ID: {user.get('username', 'demo') if user else 'demo'}")
     
     # 機関情報表示
-    if user.get('institutionName'):
+    if user and user.get('institutionName'):
         st.markdown("### 🏥 機関情報")
         st.success(f"**{user.get('institutionName')}**")
-        st.caption(f"免許番号: {user.get('licenseNumber', 'N/A')}")
+        st.caption(f"免許番号: {user.get('licenseNumber', 'N/A') if user else 'N/A'}")
         
         # データ共有状態表示
-        if user.get('dataSharing', False):
+        if user and user.get('dataSharing', False):
             st.markdown("### 🔄 データ共有")
             st.success("機関内共有データ使用中")
             st.caption("同一機関ユーザーとデータ共有")
@@ -1151,11 +1154,11 @@ with st.sidebar:
             # 機関内ユーザーリスト表示
             try:
                 from auth import get_institution_users
-                institution_users = get_institution_users(user.get('institutionName'))
+                institution_users = get_institution_users(user.get('institutionName')) if user else []
                 if institution_users:
                     with st.expander(f"👥 機関ユーザー ({len(institution_users)}名)"):
                         for inst_user in institution_users:
-                            if inst_user['username'] != user.get('username'):
+                            if inst_user['username'] != (user.get('username') if user else ''):
                                 st.caption(f"• {inst_user.get('fullName', inst_user.get('username'))}")
             except:
                 pass
@@ -1190,7 +1193,7 @@ with st.sidebar:
     st.header("患者情報")
     
     # 사용자 정보에서 기본값 설정
-    name_default = user.get('fullName', '') or (st.session_state.meta.get("name") if isinstance(st.session_state.get("meta"), dict) else None) or ""
+    name_default = (user.get('fullName', '') if user else '') or (st.session_state.meta.get("name") if isinstance(st.session_state.get("meta"), dict) else None) or ""
     
     # 불러온 환자 정보가 있으면 우선 사용
     if st.session_state.meta.get("name") and not name_default:
