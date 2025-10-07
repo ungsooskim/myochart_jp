@@ -799,7 +799,7 @@ def _parse_ct_lines(txt: str) -> pd.DataFrame:
 #  페이지 설정 및 초기화
 # =========================
 st.set_page_config(
-    page_title="안축장/굴절이상 추이 및 20세 예측",
+    page_title="眼軸長・屈折異常推移及び20歳予測",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -2160,8 +2160,7 @@ with tab2:
                 fig.update_layout(
                     title="안축장 성장 차트",
                     xaxis=dict(
-                        title=x_title,
-                        titlefont=dict(size=12),
+                        title=dict(text=x_title, font=dict(size=12)),
                         tickfont=dict(size=10),
                         showgrid=True,
                         gridcolor='rgba(128,128,128,0.3)',
@@ -2178,8 +2177,7 @@ with tab2:
                         dtick=2
                     ),
                     yaxis=dict(
-                        title="안축장 (mm)",
-                        titlefont=dict(size=12),
+                        title=dict(text="안축장 (mm)", font=dict(size=12)),
                         tickfont=dict(size=10),
                         showgrid=True,
                         gridcolor='rgba(128,128,128,0.3)',
@@ -2568,8 +2566,7 @@ with tab2:
             fig.update_layout(
                 title="굴절이상 추이",
                 xaxis=dict(
-                    title=x_title,
-                    titlefont=dict(size=12),
+                    title=dict(text=x_title, font=dict(size=12)),
                     tickfont=dict(size=10),
                     showgrid=True,
                     gridcolor='rgba(128,128,128,0.3)',
@@ -2585,8 +2582,7 @@ with tab2:
                     dtick=1
                 ),
                 yaxis=dict(
-                    title="구면대응 (D)",
-                    titlefont=dict(size=12),
+                    title=dict(text="구면대응 (D)", font=dict(size=12)),
                     tickfont=dict(size=10),
                     showgrid=True,
                     gridcolor='rgba(128,128,128,0.3)',
@@ -2848,8 +2844,7 @@ with tab2:
                 fig.update_layout(
                     title="안축장 + 굴절이상 이중축 그래프",
                     xaxis=dict(
-                        title=x_title,
-                        titlefont=dict(size=12),
+                        title=dict(text=x_title, font=dict(size=12)),
                         tickfont=dict(size=10),
                         showgrid=True,
                         gridcolor='rgba(128,128,128,0.3)',
@@ -2865,9 +2860,8 @@ with tab2:
                         dtick=1
                     ),
                     yaxis=dict(
-                        title="안축장 (mm)", 
+                        title=dict(text="안축장 (mm)", font=dict(size=12)), 
                         side="left",
-                        titlefont=dict(size=12),
                         tickfont=dict(size=10),
                         showgrid=True,
                         gridcolor='rgba(128,128,128,0.3)',
@@ -2883,10 +2877,9 @@ with tab2:
                         dtick=1
                     ),
                     yaxis2=dict(
-                        title="굴절이상 절대값 (D)", 
+                        title=dict(text="굴절이상 절대값 (D)", font=dict(size=12)), 
                         side="right", 
                         overlaying="y",
-                        titlefont=dict(size=12),
                         tickfont=dict(size=10),
                         showgrid=False,
                         zeroline=True,
