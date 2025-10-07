@@ -53,7 +53,30 @@ except ImportError:
         return None
     
     def create_demo_user():
-        return {'username': 'demo', 'fullName': '데모 사용자'}
+        """デモユーザー作成（日本語版）"""
+        from datetime import datetime
+        from pathlib import Path
+        
+        demo_user = {
+            'user_id': 'demo',
+            'username': 'demo_user',
+            'fullName': 'デモユーザー',
+            'email': 'demo@example.com',
+            'birthDate': '2010-01-01',
+            'gender': '男性',
+            'institutionName': 'デモ病院',
+            'institutionAddress': '東京都渋谷区',
+            'licenseNumber': 'DEMO123456',
+            'dataSharing': False,
+            'created_at': datetime.now().isoformat()
+        }
+        
+        st.session_state.user = demo_user
+        st.session_state.user_id = 'demo'
+        st.session_state.user_data_dir = Path("./demo_data")
+        st.session_state.user_data_dir.mkdir(exist_ok=True)
+        
+        return demo_user
 
 # =========================
 #  한글 폰트 (OS 자동 설정)
